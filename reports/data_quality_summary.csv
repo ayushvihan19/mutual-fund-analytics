@@ -1,6 +1,8 @@
-file,issue,count
-118632_nav.csv,future_date,12
-120152_nav.csv,future_date,12
-120465_nav.csv,future_date,12
-120465_nav.csv,non_positive_nav,1
-120586_nav.csv,future_date,12
+check,result,status
+Fund master row count,40,INFO
+NAV history row count,46000,INFO
+Unique fund master AMFI codes,40,INFO
+Fund master codes missing from NAV history,0,PASS
+NAV history codes not in fund master,0,INFO
+Missing values in fund master,0,PASS
+Missing values in NAV history,0,PASS

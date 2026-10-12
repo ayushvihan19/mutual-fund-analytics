@@ -1,4 +1,5 @@
 
+
 from pathlib import Path
 import pandas as pd
 
@@ -16,30 +17,32 @@ for file_path in sorted(RAW_DIR.glob("*_nav.csv")):
     )
     df["nav"] = pd.to_numeric(df["nav"], errors="coerce")
 
-    invalid_dates = df["date"].isna().sum()
-    invalid_navs = df["nav"].isna().sum()
-    nonpositive_navs = (df["nav"] <= 0).sum()
-    future_dates = (df["date"] > TODAY).sum()
-    duplicate_rows = df.duplicated().sum()
-    duplicate_dates = df["date"].duplicated().sum()
+    original_rows = len(df)
 
-    print(f"\nFile: {file_path.name}")
-    print("Invalid dates:", invalid_dates)
-    print("Invalid NAV values:", invalid_navs)
-    print("Non-positive NAVs:", nonpositive_navs)
-    print("Future-dated rows:", future_dates)
-    print("Duplicate rows:", duplicate_rows)
-    print("Duplicate dates:", duplicate_dates)
+    # Remove invalid dates and invalid or non-positive NAV values.
+    df = df.dropna(subset=["date", "nav"])
+    df = df[df["nav"] > 0]
 
-    # Remove only exact duplicate rows.
+    # Exclude dates later than today.
+    df = df[df["date"] <= TODAY]
+
+    # Remove duplicate rows and sort chronologically.
     df = df.drop_duplicates()
-
-    # Sort dates chronologically.
     df = df.sort_values("date")
 
-    # Keep questionable records for review instead of silently deleting them.
+    # Keep one record per date, retaining the last row after sorting.
+    df = df.drop_duplicates(subset=["date"], keep="last")
+
     output_path = PROCESSED_DIR / file_path.name
     df.to_csv(output_path, index=False, date_format="%Y-%m-%d")
+
+    print(f"\nFile: {file_path.name}")
+    print("Original rows:", original_rows)
+    print("Processed rows:", len(df))
+    print("Rows removed:", original_rows - len(df))
+    print("Dates sorted:", df["date"].is_monotonic_increasing)
+    print("Remaining invalid NAVs:", (df["nav"] <= 0).sum())
+    print("Remaining future dates:", (df["date"] > TODAY).sum())
     print("Saved:", output_path)
 
-print("\nCleaning and validation pass complete.")
+print("\nCleaning complete.")

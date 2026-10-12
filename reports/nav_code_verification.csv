@@ -1,0 +1,7 @@
+scheme_code,expected_name,actual_name,nav_records,name_match,status
+125497,HDFC Top 100 Direct,SBI SMALL CAP FUND - Direct Plan - Growth,3182,False,Name mismatch or no NAV data; skipped
+119551,SBI Bluechip,Aditya Birla Sun Life Banking & PSU Debt Fund - Direct Plan - IDCW-Re-investment,3326,False,Name mismatch or no NAV data; skipped
+120503,ICICI Bluechip,Axis ELSS- Tax Saver Fund - Direct Plan - Growth Option,3398,False,Name mismatch or no NAV data; skipped
+118632,Nippon Large Cap,Nippon India Large Cap Fund - Direct Plan - Growth Option,3389,True,Verified name; NAV saved
+119092,Axis Bluechip,HDFC Money Market Fund - Direct Plan - Growth Option,3655,False,Name mismatch or no NAV data; skipped
+120841,Kotak Bluechip,Quant Mid Cap Fund - Direct Plan - Growth Option,3392,False,Name mismatch or no NAV data; skipped
